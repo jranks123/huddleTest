@@ -250,6 +250,7 @@ public class huddleMapProblem {
 		System.out.println((int)result);
 	}
 
+	//Reads the town information into the graph
 	public static HashList readInputFile(String arg) throws IOException, FileNotFoundException{
 		File file= new File(arg);
 	    BufferedReader in = new BufferedReader(new FileReader(file));
@@ -275,6 +276,8 @@ public class huddleMapProblem {
 	   	return new HashList(nodes, edges);
 	}
 
+
+	//Reads in the tests
 	public static ArrayList<String> readTestFile(String arg) throws IOException, FileNotFoundException{
 		File file= new File(arg);
 	    BufferedReader in = new BufferedReader(new FileReader(file));
