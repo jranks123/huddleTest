@@ -40,7 +40,7 @@ Format of route length test:
     routeLength [route]
 
 Where:  
-.[route] is a string in the format "[town][town][town]...[town]"
+.[route] is a string in the format "[town][town][town]...[town]"  
 eg routeLength ABCA
 
 
@@ -64,8 +64,8 @@ Format of get shortest route test:
       getShortestRoute [Start Town] [End Town]
 
 Where:  
-.[Start Town] is a a string containing the start town
-.[End Town] is a a string containing the end town
+.[Start Town] is a a string containing the start town  
+.[End Town] is a a string containing the end town  
 eg getShortestRoute A B
 
 
