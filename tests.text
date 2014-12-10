@@ -1,8 +1,8 @@
-routeLength A-B-C
-routeLength A-D
-routeLength A-D-C
-routeLength A-E-B-C-D
-routeLength A-E-D
+routeLength ABC
+routeLength AD
+routeLength ADC
+routeLength AEBCD
+routeLength AED
 getNumberOfRoutes JunctionTest upto 3 C C 
 getNumberOfRoutes JunctionTest equals 4 A C 
 getShortestRoute A C
