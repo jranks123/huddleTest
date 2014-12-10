@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.*;
 import java.lang.*;
 
+
 class Edge {
 	String destinationNode;
 	Integer weight;
@@ -131,56 +132,7 @@ public class matrix {
 		return routes;
 	}
 
-	//Returns the number of routes that meet a certain criteria. If maxWeight is Double.POSITIVE_INFINITY
-	//then the number of junctions in the route will be the limiting variable and if maxPath is Double.DOUBLE_INFINITY 
-	//then the weight of the route will be the limiting variable.If the operator variable is '==' it will return 
-	//paths that exactly meet the maximum limiting variable, otherwise it it will 
-	//paths that are equal or less than the limiting variable.
-	public static String getNumberOfRoutes(HashList graph, String testType, double max, String start, String end, String operator){
-		double maxPath; 
-		double maxWeight;
-		if(testType == "Junction Test"){
-			maxPath = max;
-			maxWeight =  Double.POSITIVE_INFINITY;
-		}else if(testType == "Weight Test"){
-			maxPath =  Double.POSITIVE_INFINITY;
-			maxWeight = max;
-		}else{
-			return new String("Invalid test case entered");
-		}
 
-		ArrayList<Route> routes = new ArrayList<Route>();
-		Route curRoute = new Route(start, 0);
-		routes = exploreGraph(graph, start, curRoute, maxPath, maxWeight, routes);
-		Integer count = 0;
-		for(Route r : routes){
-			if(r.path.endsWith(end)){
-				if(operator.equals("==")){
-					if (r.path.length() == maxPath+1){
-						count++;
-					}
-				}else{
-					count++;
-				}
-			}
-		}
-		return Integer.toString(count);
-	}
-
-	//Return the distance between 2 nodes, or NO SUCH ROUTE if no route exisits
-	public static String routeLength(String route, HashList graph){
-		String[] lineArray = route.split("-");
-		Integer routeLength = 0;
-		for(int i = 0; i < lineArray.length-1; i++){
-			try{
-				routeLength += graph.getDistance(lineArray[i], lineArray[i+1]);
-			}
-			catch(NullPointerException e){
-				return "NO SUCH ROUTE";
-			}
-		}
-		return Integer.toString(routeLength);
-	}
 
 	//Returns the Node with the lost cost
 	public static Node getLowestNode(Map<String, Node> nodes){
@@ -204,10 +156,66 @@ public class matrix {
 		return newNodes;
 	}
 
-	//Returns shortest route between 2 nodes
-	public static double getShortestRoute(Map<String, Node> nodes, Map<String, Integer> edges, String start, String end){
-		nodes = createNodeMapClone(nodes);
-		HashList graph = new HashList(nodes, edges, start);
+
+	//Print the distance between 2 nodes, or NO SUCH ROUTE if no route exisits
+	public static void routeLength(String route, HashList graph){
+		String[] lineArray = route.split("-");
+		Integer routeLength = 0;
+		for(int i = 0; i < lineArray.length-1; i++){
+			try{
+				routeLength += graph.getDistance(lineArray[i], lineArray[i+1]);
+			}
+			catch(NullPointerException e){
+				System.out.println("NO SUCH ROUTE");
+			}
+		}
+		System.out.println(Integer.toString(routeLength));
+	}
+
+
+	//Prints the number of routes that meet a certain criteria. If maxWeight is Double.POSITIVE_INFINITY
+	//then the number of junctions in the route will be the limiting variable and if maxPath is Double.DOUBLE_INFINITY 
+	//then the weight of the route will be the limiting variable.If the operator variable is '==' it will return 
+	//paths that exactly meet the maximum limiting variable, otherwise it it will 
+	//paths that are equal or less than the limiting variable.
+	public static void getNumberOfRoutes(String testType, double max, String start, String end, String operator, HashList graph){
+		double maxPath; 
+		double maxWeight;
+		if(testType == "Junction Test"){
+			maxPath = max;
+			maxWeight =  Double.POSITIVE_INFINITY;
+		}else if(testType == "Weight Test"){
+			maxPath =  Double.POSITIVE_INFINITY;
+			maxWeight = max;
+		}else{
+			System.out.println(new String("Invalid test case entered"));
+			return;
+		}
+		ArrayList<Route> routes = new ArrayList<Route>();
+		Route curRoute = new Route(start, 0);
+		routes = exploreGraph(graph, start, curRoute, maxPath, maxWeight, routes);
+		Integer count = 0;
+		for(Route r : routes){
+			if(r.path.endsWith(end)){
+				if(operator.equals("==")){
+					if (r.path.length() == maxPath+1){
+						count++;
+					}
+				}else if (operator.equals("<=")){
+					count++;
+				}else{
+					System.out.println("Invalid operator entered");
+					return;
+				}
+			}
+		}
+		System.out.println(Integer.toString(count));
+	}
+
+	//Print shortest route between 2 nodes
+	public static void getShortestRoute(String start, String end, HashList oldGraph){
+		Map<String, Node> nodes = createNodeMapClone(oldGraph.nodes);
+		HashList graph = new HashList(nodes, oldGraph.edges, start);
 		graph.getNode(start).cost = 0;
 		ArrayList<Edge> outEdges = new ArrayList<Edge>();
 		int numUnknownNodes = graph.nodes.size();
@@ -237,7 +245,7 @@ public class matrix {
 		}
 		double result = graph.getNode(end).cost;
 
-		return result;
+		System.out.println((int)result);
 	}
 
 	//This reads in the data from an input file and fills the datastructure with the information
@@ -264,42 +272,42 @@ public class matrix {
 			}
 	    }
 	    HashList graph = new HashList(nodes, edges);
-	    runTests(graph, nodes, edges);	
+	    runTests(graph);	
 
 	}
 
 	//runs the tests
-	public static void runTests(HashList graph, Map<String, Node> nodes, Map<String, Integer> edges){
+	public static void runTests(HashList graph){
 		//Test 1
-		System.out.println(routeLength("A-B-C", graph));
+		routeLength("A-B-C", graph);
 
 		//Test 2
-		System.out.println(routeLength("A-D", graph));
+		routeLength("A-D", graph);
 
 		//Test 3
-		System.out.println(routeLength("A-D-C", graph));
+		routeLength("A-D-C", graph);
 
 		//Test 4
-		System.out.println(routeLength("A-E-B-C-D", graph));
+		routeLength("A-E-B-C-D", graph);
 
 		//Test 5
-		System.out.println(routeLength("A-E-D", graph));
+		routeLength("A-E-D", graph);
 
 		//Test 6
-		System.out.println(getNumberOfRoutes(graph, "Junction Test", 3, "C", "C", "<="));
+		getNumberOfRoutes("Junction Test", 3, "C", "C", "<=", graph);
 
 		//Test 7
-		System.out.println(getNumberOfRoutes(graph, "Junction Test", 4, "A", "C", "=="));
+		getNumberOfRoutes("Junction Test", 4, "A", "C", "==", graph);
 
 		//Test 8
-		System.out.println((int)getShortestRoute(nodes, edges, "A", "C"));
+		getShortestRoute("A", "C", graph);
 
 		//Test 9
 
-		System.out.println((int)getShortestRoute(nodes, edges, "B", "B"));
+		getShortestRoute("B", "B", graph);
 
 		//Test 10
-		System.out.println(getNumberOfRoutes(graph, "Weight Test", 30, "C", "C", "<"));
+		getNumberOfRoutes("Weight Test", 30, "C", "C", "<=", graph);
 	}
 }
 
