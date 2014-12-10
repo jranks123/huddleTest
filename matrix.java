@@ -100,7 +100,7 @@ class HashList{
 
 public class matrix {
 
-	//returns all routes between 2 nodes that are less than or equal to maxPath and hae a weight of less than maxWeight
+	//Returns all routes between 2 nodes that are less than or equal to maxPath and hae a weight of less than maxWeight.
 	public static ArrayList<Route> exploreGraph(HashList graph, String start, Route curRoute, double maxPath, double maxWeight, ArrayList<Route> routes){
 		//This try/catch deals with the case when there is a node with no out edges
 		try{
@@ -123,8 +123,11 @@ public class matrix {
 		return routes;
 	}
 
-	//Returns the number of routes with a length that either equals or is less than maxPath, or with a weight that 
-	//that is less than maxWeight depending on the variables passed to the function
+	//Returns the number of routes that meet a certain criteria. If maxWeight is Double.POSITIVE_INFINITY
+	//then the number of junctions in the route will be the limiting variable and if maxPath is Double.DOUBLE_INFINITY 
+	//then the weight of the route will be the limiting variable.If the operator variable is '==' it will return 
+	//paths that exactly meet the maximum limiting variable, otherwise it it will 
+	//paths that are equal or less than the limiting variable.
 	public static Integer getNumberOfRoutes(HashList graph, double maxWeight, double maxPath, String start, String end, String operator){
 		ArrayList<Route> routes = new ArrayList<Route>();
 		Route curRoute = new Route(start, 0);
@@ -245,6 +248,7 @@ public class matrix {
 
 	}
 
+	//runs the tests
 	public static void runTests(HashList graph, Map<String, Node> nodes, Map<String, Integer> edges){
 		//Test 1
 		System.out.println(routeLength("A-B-C", graph));
