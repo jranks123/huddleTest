@@ -33,7 +33,7 @@ class Node implements Comparable<Node>, Cloneable{
 	ArrayList<Edge> getEdges(){
 		return outEdges;
 	}
-
+	
 	double getCost(){
 		return cost;
 	}
@@ -77,7 +77,7 @@ class Route{
 }
 
 //my main Datastructure composes of a map of all nodes and a map of all edges. This allows the program to 
-//efficiently return all edges belonging to a node and to efficiently return a distance between 2 nodes
+//efficiently return all edges belonging to a node, the distance between 2 nodes or an instance of node.
 class HashList{
 	Map<String, Node> nodes;
 	Map<String, Integer> edges;
@@ -96,6 +96,14 @@ class HashList{
 		return edges.get(new String(start+end));
 	}
 
+	Node getNode(String nodeName){
+		return nodes.get(nodeName);
+	}
+
+	ArrayList<Edge> getNodeEdges(String nodeName){
+		return getNode(nodeName).getEdges();
+	}
+
 }
 
 public class matrix {
@@ -104,7 +112,7 @@ public class matrix {
 	public static ArrayList<Route> exploreGraph(HashList graph, String start, Route curRoute, double maxPath, double maxWeight, ArrayList<Route> routes){
 		//This try/catch deals with the case when there is a node with no out edges
 		try{
-			ArrayList<Edge> outEdges = graph.nodes.get(start).getEdges();
+			ArrayList<Edge> outEdges = graph.getNodeEdges(start);
 			Route newRoute;
 			double newWeight;
 			if (curRoute.path.length() <= maxPath && curRoute.weight < maxWeight ){
@@ -188,7 +196,7 @@ public class matrix {
 	public static double getShortestRoute(Map<String, Node> nodes, Map<String, Integer> edges, String start, String end){
 		nodes = createNodeMapClone(nodes);
 		HashList graph = new HashList(nodes, edges, start);
-		graph.nodes.get(start).cost = 0;
+		graph.getNode(start).cost = 0;
 		ArrayList<Edge> outEdges = new ArrayList<Edge>();
 		int numUnknownNodes = graph.nodes.size();
 		int roundNumber = 1;
@@ -197,25 +205,25 @@ public class matrix {
 			//This deals with test case 9 by setting the cost of the start node to infinity and know to false
 			//after the first iteration 
 			if(roundNumber == 2 && start == end){
-				graph.nodes.get(start).cost = Double.POSITIVE_INFINITY;
-				graph.nodes.get(start).known = false;
+				graph.getNode(start).cost = Double.POSITIVE_INFINITY;
+				graph.getNode(start).known = false;
 			}
 			lowestNode = getLowestNode(graph.nodes);
-			graph.nodes.get(lowestNode.nodeName).known = true;
+			graph.getNode(lowestNode.nodeName).known = true;
 			numUnknownNodes--;
 			roundNumber++;
-			outEdges = graph.nodes.get(lowestNode.nodeName).getEdges();
+			outEdges = graph.getNodeEdges(lowestNode.nodeName);
 			for(Edge e: outEdges){
 				//This try/catch deals with the case when there is a node with no out edges
 				try{
-					graph.nodes.get(e.destinationNode).cost = Math.min(graph.nodes.get(e.destinationNode).cost, 
-						graph.getDistance(lowestNode.nodeName,e.destinationNode)+graph.nodes.get(lowestNode.nodeName).cost);
+					graph.getNode(e.destinationNode).cost = Math.min(graph.getNode(e.destinationNode).cost, 
+						graph.getDistance(lowestNode.nodeName,e.destinationNode)+graph.getNode(lowestNode.nodeName).cost);
 				}
 				catch(NullPointerException exception){
 				}
 			}
 		}
-		double result = graph.nodes.get(end).cost;
+		double result = graph.getNode(end).cost;
 
 		return result;
 	}
