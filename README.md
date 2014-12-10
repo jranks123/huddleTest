@@ -14,7 +14,7 @@ You will need to provide code that calculates:
 
 Input
 ======
-The program gets the towns and distances from a file called input.text.
+The program gets the towns and distances from a file called input.text.  
 
 
 This shoud be in the format
@@ -29,19 +29,18 @@ eg.
 		AB1
 		ER4
 		EA2
-		etc
 
 
 Test Input
 ==========
-The tests are input to the program via a file called tests.text. The provided test have already been added but to add your own
-simply append a test onto a new line of tests.text with the following format:
+The tests are input to the program via a file called tests.text. The provided test have already been added but to add your ownsimply append a test onto a new line of tests.text with the following format:  
 
-Format of route length test:
+Format of route length test:  
 
     routeLength [route]
 
-Where [route] is a string in the format "[town][town][town]...[town]"
+Where:  
+.[route] is a string in the format "[town][town][town]...[town]"
 eg routeLength ABCA
 
 
@@ -49,31 +48,31 @@ Format of get number of routes test:
 
       getNumberOfRoutes [Test name]  [operator] [number] [Start Town] [End Town]
 
-Where:
-.[Test Name] is a string containing the test type, either "JunctionTest" or "WeightTest"
-.[Number] is an integer that signifies the limiting number for the test
-.[Start Town] is a a string containing the start town
-.[End Town] is a a string containing the end town
-.[Operator] is a string containing the operator that will limit the results, either "equals" to print the number of routes 
-that match the limiting number exactly or "upto" to print the number of routes that are no greater that the limiting number.
-eg getNumberOfRoutes WeightTest upto 30 A B
+Where:  
+.[Test Name] is a string containing the test type, either "JunctionTest" or "WeightTest"  
+.[Number] is an integer that signifies the limiting number for the test  
+.[Start Town] is a a string containing the start town  
+.[End Town] is a a string containing the end town  
+.[Operator] is a string containing the operator that will limit the results, either "equals" to print the number of routes   
+that match the limiting number exactly or "upto" to print the number of routes that are no greater that the limiting number.  
+eg getNumberOfRoutes WeightTest upto 30 A B  
 
 
 
-Format of get shortest route test:
+Format of get shortest route test: 
 
       getShortestRoute [Start Town] [End Town]
 
-Where:
+Where:  
 .[Start Town] is a a string containing the start town
 .[End Town] is a a string containing the end town
 eg getShortestRoute A B
 
 
-INSTRUCTIONS
-=====
+INSTRUCTIONS  
+=====  
 Download the git repository from https://github.com/jranks123/huddleTest
-Navigate to the huddleTest-master folder
+Navigate to the huddleTest-master folder.    
 
 In the command line enter: java huddleMapProblem input.text tests.text
 
