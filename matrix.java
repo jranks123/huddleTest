@@ -178,16 +178,17 @@ public class matrix {
 	//then the weight of the route will be the limiting variable.If the operator variable is '==' it will return 
 	//paths that exactly meet the maximum limiting variable, otherwise it it will 
 	//paths that are equal or less than the limiting variable.
-	public static void getNumberOfRoutes(String testType, double max, String start, String end, String operator, HashList graph){
+	public static void getNumberOfRoutes(String testType, String operator, double max, String start, String end, HashList graph){
 		double maxPath; 
 		double maxWeight;
-		if(testType == "Junction Test"){
+		if(testType.equals("JunctionTest")){
 			maxPath = max;
 			maxWeight =  Double.POSITIVE_INFINITY;
-		}else if(testType == "Weight Test"){
+		}else if(testType.equals("WeightTest")){
 			maxPath =  Double.POSITIVE_INFINITY;
 			maxWeight = max;
 		}else{
+			System.out.println(testType);
 			System.out.println(new String("Invalid test case entered"));
 			return;
 		}
@@ -197,11 +198,11 @@ public class matrix {
 		Integer count = 0;
 		for(Route r : routes){
 			if(r.path.endsWith(end)){
-				if(operator.equals("==")){
+				if(operator.equals("equals")){
 					if (r.path.length() == maxPath+1){
 						count++;
 					}
-				}else if (operator.equals("<=")){
+				}else if (operator.equals("upto")){
 					count++;
 				}else{
 					System.out.println("Invalid operator entered");
@@ -224,7 +225,7 @@ public class matrix {
 		while(numUnknownNodes > 0){
 			//This deals with test case 9 by setting the cost of the start node to infinity and know to false
 			//after the first iteration 
-			if(roundNumber == 2 && start == end){
+			if(roundNumber == 2 && start.equals(end)){
 				graph.getNode(start).cost = Double.POSITIVE_INFINITY;
 				graph.getNode(start).known = false;
 			}
@@ -248,9 +249,8 @@ public class matrix {
 		System.out.println((int)result);
 	}
 
-	//This reads in the data from an input file and fills the datastructure with the information
-	public static void main(String[] args) throws IOException, FileNotFoundException{
-	    File file = new File(args[0]);
+	public static HashList readInputFile(String arg) throws IOException, FileNotFoundException{
+		File file= new File(arg);
 	    BufferedReader in = new BufferedReader(new FileReader(file));
 	    String line;
 	   	Map<String, Node> nodes = new HashMap<String, Node>();
@@ -261,8 +261,8 @@ public class matrix {
 				String end = line.substring(1,2);
 				int weight = Integer.parseInt(line.substring(2));
 				//prevents duplicate edges
-				if (edges.get(start+end) == null){
-		        	edges.put( new String(start+end), weight);
+				if (edges.get(start+end) == null){		        	
+					edges.put( new String(start+end), weight);
 		        	//prevents duplicate nodes
 			        if (nodes.get(start) == null){
 			        	nodes.put( new String(start), new Node(start));
@@ -271,43 +271,45 @@ public class matrix {
 			    }
 			}
 	    }
-	    HashList graph = new HashList(nodes, edges);
-	    runTests(graph);	
+	   	return new HashList(nodes, edges);
+	}
+
+	public static ArrayList<String> readTestFile(String arg) throws IOException, FileNotFoundException{
+		File file= new File(arg);
+	    BufferedReader in = new BufferedReader(new FileReader(file));
+	    String line;
+	    ArrayList<String> tests = new ArrayList<String>();
+	    while ((line = in.readLine()) != null) {
+	    	if(line.length() >  0){
+		    	tests.add(line);
+			}
+	    }
+	   	return tests;
+	}
+
+	//This reads in the data from an input file and fills the datastructure with the information
+	public static void main(String[] args)  throws IOException, FileNotFoundException{
+	    HashList graph = readInputFile(args[0]);
+	    ArrayList<String> tests = readTestFile(args[1]);
+	    runTests(graph, tests);	
 
 	}
 
 	//runs the tests
-	public static void runTests(HashList graph){
-		//Test 1
-		routeLength("A-B-C", graph);
+	public static void runTests(HashList graph, ArrayList<String> tests){
 
-		//Test 2
-		routeLength("A-D", graph);
+		for(String t: tests){
+			String[] lineArray = t.split(" ");
+			String testType = lineArray[0];
+			if(lineArray[0].equals("routeLength")){
+					 routeLength(lineArray[1], graph);
+			}else if(lineArray[0].equals("getNumberOfRoutes")){
+					 getNumberOfRoutes(lineArray[1], lineArray[2], Integer.parseInt(lineArray[3]), lineArray[4], lineArray[5], graph);
+			}else if(lineArray[0].equals("getShortestRoute")){
+					 getShortestRoute(lineArray[1], lineArray[2], graph);
+            }
 
-		//Test 3
-		routeLength("A-D-C", graph);
-
-		//Test 4
-		routeLength("A-E-B-C-D", graph);
-
-		//Test 5
-		routeLength("A-E-D", graph);
-
-		//Test 6
-		getNumberOfRoutes("Junction Test", 3, "C", "C", "<=", graph);
-
-		//Test 7
-		getNumberOfRoutes("Junction Test", 4, "A", "C", "==", graph);
-
-		//Test 8
-		getShortestRoute("A", "C", graph);
-
-		//Test 9
-
-		getShortestRoute("B", "B", graph);
-
-		//Test 10
-		getNumberOfRoutes("Weight Test", 30, "C", "C", "<=", graph);
+		}
 	}
 }
 

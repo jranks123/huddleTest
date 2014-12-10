@@ -1,0 +1,10 @@
+routeLength A-B-C
+routeLength A-D
+routeLength A-D-C
+routeLength A-E-B-C-D
+routeLength A-E-D
+getNumberOfRoutes JunctionTest upto 3 C C 
+getNumberOfRoutes JunctionTest equals 4 A C 
+getShortestRoute A C
+getShortestRoute B B
+getNumberOfRoutes WeightTest upto 30 C C
