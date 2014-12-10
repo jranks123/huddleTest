@@ -73,6 +73,6 @@ INSTRUCTIONS
 =====  
 .Download the git repository from https://github.com/jranks123/huddleTest  
 .Navigate to the huddleTest-master folder.      
-In the command line enter: java huddleMapProblem input.text tests.text  
+.In the command line enter: java huddleMapProblem input.text tests.text  
 
 
