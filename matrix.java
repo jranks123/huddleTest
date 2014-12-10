@@ -33,7 +33,7 @@ class Node implements Comparable<Node>, Cloneable{
 	ArrayList<Edge> getEdges(){
 		return outEdges;
 	}
-	
+
 	double getCost(){
 		return cost;
 	}
@@ -136,7 +136,19 @@ public class matrix {
 	//then the weight of the route will be the limiting variable.If the operator variable is '==' it will return 
 	//paths that exactly meet the maximum limiting variable, otherwise it it will 
 	//paths that are equal or less than the limiting variable.
-	public static Integer getNumberOfRoutes(HashList graph, double maxWeight, double maxPath, String start, String end, String operator){
+	public static String getNumberOfRoutes(HashList graph, String testType, double max, String start, String end, String operator){
+		double maxPath; 
+		double maxWeight;
+		if(testType == "Junction Test"){
+			maxPath = max;
+			maxWeight =  Double.POSITIVE_INFINITY;
+		}else if(testType == "Weight Test"){
+			maxPath =  Double.POSITIVE_INFINITY;
+			maxWeight = max;
+		}else{
+			return new String("Invalid test case entered");
+		}
+
 		ArrayList<Route> routes = new ArrayList<Route>();
 		Route curRoute = new Route(start, 0);
 		routes = exploreGraph(graph, start, curRoute, maxPath, maxWeight, routes);
@@ -152,7 +164,7 @@ public class matrix {
 				}
 			}
 		}
-		return count;
+		return Integer.toString(count);
 	}
 
 	//Return the distance between 2 nodes, or NO SUCH ROUTE if no route exisits
@@ -274,10 +286,10 @@ public class matrix {
 		System.out.println(routeLength("A-E-D", graph));
 
 		//Test 6
-		System.out.println(getNumberOfRoutes(graph, Double.POSITIVE_INFINITY, 3, "C", "C", "<"));
+		System.out.println(getNumberOfRoutes(graph, "Junction Test", 3, "C", "C", "<="));
 
 		//Test 7
-		System.out.println(getNumberOfRoutes(graph, Double.POSITIVE_INFINITY, 4, "A", "C", "=="));
+		System.out.println(getNumberOfRoutes(graph, "Junction Test", 4, "A", "C", "=="));
 
 		//Test 8
 		System.out.println((int)getShortestRoute(nodes, edges, "A", "C"));
@@ -287,7 +299,7 @@ public class matrix {
 		System.out.println((int)getShortestRoute(nodes, edges, "B", "B"));
 
 		//Test 10
-		System.out.println(getNumberOfRoutes(graph, 30, Double.POSITIVE_INFINITY, "C", "C", "<"));
+		System.out.println(getNumberOfRoutes(graph, "Weight Test", 30, "C", "C", "<"));
 	}
 }
 
