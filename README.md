@@ -36,13 +36,17 @@ The tests are input to the program via a file called tests.text. The provided te
 simply append a test onto a new line of tests.text with the following format:
 
 Format of route length test:
+
     routeLength [route]
+
 Where [route] is a string in the format "[town][town][town]...[town]"
 eg routeLength ABCA
 
 
 Format of get number of routes test:
+
       getNumberOfRoutes [Test name]  [operator] [number] [Start Town] [End Town]
+
 Where:
 .[Test Name] is a string containing the test type, either "JunctionTest" or "WeightTest"
 .[Number] is an integer that signifies the limiting number for the test
@@ -55,7 +59,9 @@ eg getNumberOfRoutes WeightTest upto 30 A B
 
 
 Format of get shortest route test:
+
       getShortestRoute [Start Town] [End Town]
+      
 Where:
 .[Start Town] is a a string containing the start town
 .[End Town] is a a string containing the end town
