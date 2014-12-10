@@ -19,11 +19,13 @@ The program gets the towns and distances from a file called input.text.
 
 This shoud be in the format
 
-[Single character representing town A][Single character representing town B][Distance between towns]
-[Single character representing town A][Single character representing town C][Distance between towns]
+[town][town][Distance]
+[town][town][Distance]
+
 etc
 
 eg.
+
 AB1
 ER4
 EA2
@@ -61,7 +63,7 @@ eg getNumberOfRoutes WeightTest upto 30 A B
 Format of get shortest route test:
 
       getShortestRoute [Start Town] [End Town]
-      
+
 Where:
 .[Start Town] is a a string containing the start town
 .[End Town] is a a string containing the end town
