@@ -19,17 +19,17 @@ The program gets the towns and distances from a file called input.text.
 
 This shoud be in the format
 
-[town][town][Distance]
-[town][town][Distance]
+		[town][town][Distance]
+		[town][town][Distance]
 
 etc
 
 eg.
 
-AB1
-ER4
-EA2
-etc
+		AB1
+		ER4
+		EA2
+		etc
 
 
 Test Input
